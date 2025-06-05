@@ -46,6 +46,7 @@ struct ContentView: View {
   func processInput() {
     let trimmed = input.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
     let hex = trimmed.replacingOccurrences(of: "U+", with: "")
+    input = hex
 
     guard let scalarValue = UInt32(hex, radix: 16),
       let scalar = UnicodeScalar(scalarValue)
