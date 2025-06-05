@@ -17,10 +17,8 @@ struct ContentView: View {
   var body: some View {
     VStack(alignment: .leading, spacing: 12) {
       Text("Enter a Unicode code point (e.g., 063A or U+063A):")
-        .font(.title3)
       TextField("Code point", text: $input)
         .textFieldStyle(RoundedBorderTextFieldStyle())
-        .font(.title3)
         .onSubmit { processInput() }
 
       if let character = character {
@@ -28,7 +26,6 @@ struct ContentView: View {
           .font(.system(size: 64))
           .frame(maxWidth: .infinity, alignment: .center)
         Text("Character name: \(unicodeName)")
-          .font(.title3)
         Button("Copy to Clipboard") {
           NSPasteboard.general.clearContents()
           NSPasteboard.general.setString(String(character), forType: .string)
@@ -36,11 +33,11 @@ struct ContentView: View {
       } else if let errorMessage = errorMessage {
         Text("Error: \(errorMessage)")
           .foregroundColor(.red)
-          .font(.title3)
       }
 
       Spacer()
     }
+    .font(.system(size: 16))
     .padding()
     .frame(width: 400, height: 300)
   }
