@@ -22,6 +22,7 @@ struct ContentView: View {
         .textFieldStyle(RoundedBorderTextFieldStyle())
         .focused($isInputFocused)
         .onSubmit { processInput() }
+        .frame(width: 150, alignment: .leading)
 
       if let character = character {
         Text("\(character)")
