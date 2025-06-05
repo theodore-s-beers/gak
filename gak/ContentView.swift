@@ -15,6 +15,16 @@ struct ContentView: View {
   @State private var errorMessage: String?
   @FocusState private var isInputFocused: Bool
 
+  var displayCharacter: Character? {
+    guard let character,
+      let scalar = character.unicodeScalars.first,
+      isPrintable(scalar)
+    else {
+      return "�"
+    }
+    return character
+  }
+
   var body: some View {
     VStack(alignment: .leading, spacing: 12) {
       Text("Enter a Unicode code point (e.g., 063A or U+063A):")
@@ -26,8 +36,8 @@ struct ContentView: View {
         .onSubmit { processInput() }
         .frame(width: 150, alignment: .leading)
 
-      if let character = character {
-        Text("\(character)")
+      if let character {
+        Text(String(displayCharacter ?? "�"))
           .font(.custom("NotoSans-Regular", size: 64))
           .frame(maxWidth: .infinity, alignment: .center)
           .padding(.vertical, 20)
@@ -38,7 +48,7 @@ struct ContentView: View {
           NSPasteboard.general.clearContents()
           NSPasteboard.general.setString(String(character), forType: .string)
         }
-      } else if let errorMessage = errorMessage {
+      } else if let errorMessage {
         Text("Error: \(errorMessage)")
           .foregroundColor(.red)
       }
@@ -68,5 +78,32 @@ struct ContentView: View {
     unicodeName = scalar.properties.name ?? "(no name found)"
     errorMessage = nil
     isInputFocused = false
+  }
+
+  func isPrintable(_ scalar: Unicode.Scalar) -> Bool {
+    switch scalar.properties.generalCategory {
+    case .closePunctuation,
+      .connectorPunctuation,
+      .currencySymbol,
+      .dashPunctuation,
+      .decimalNumber,
+      .finalPunctuation,
+      .initialPunctuation,
+      .letterNumber,
+      .lowercaseLetter,
+      .mathSymbol,
+      .modifierLetter,
+      .modifierSymbol,
+      .openPunctuation,
+      .otherLetter,
+      .otherNumber,
+      .otherPunctuation,
+      .otherSymbol,
+      .titlecaseLetter,
+      .uppercaseLetter:
+      return true
+    default:
+      return false
+    }
   }
 }
