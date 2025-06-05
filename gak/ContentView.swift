@@ -13,12 +13,14 @@ struct ContentView: View {
   @State private var character: Character? = nil
   @State private var unicodeName: String = ""
   @State private var errorMessage: String?
+  @FocusState private var isInputFocused: Bool
 
   var body: some View {
     VStack(alignment: .leading, spacing: 12) {
       Text("Enter a Unicode code point (e.g., 063A or U+063A):")
       TextField("Code point", text: $input)
         .textFieldStyle(RoundedBorderTextFieldStyle())
+        .focused($isInputFocused)
         .onSubmit { processInput() }
 
       if let character = character {
@@ -60,5 +62,6 @@ struct ContentView: View {
     character = Character(scalar)
     unicodeName = scalar.properties.name ?? "(no name found)"
     errorMessage = nil
+    isInputFocused = false
   }
 }
