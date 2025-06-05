@@ -23,8 +23,9 @@ struct ContentView: View {
 
       if let character = character {
         Text("\(character)")
-          .font(.system(size: 64))
+          .font(.custom("NotoSans-Regular", size: 64))
           .frame(maxWidth: .infinity, alignment: .center)
+          .padding(.vertical, 20)
         Text("Character name: \(unicodeName)")
         Button("Copy to Clipboard") {
           NSPasteboard.general.clearContents()
@@ -39,7 +40,7 @@ struct ContentView: View {
     }
     .font(.system(size: 16))
     .padding()
-    .frame(width: 400, height: 300)
+    .frame(maxWidth: 500)
   }
 
   func processInput() {
