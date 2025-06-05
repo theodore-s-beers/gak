@@ -18,6 +18,8 @@ struct ContentView: View {
   var body: some View {
     VStack(alignment: .leading, spacing: 12) {
       Text("Enter a Unicode code point (e.g., 063A or U+063A):")
+        .frame(maxWidth: .infinity, alignment: .leading)
+
       TextField("Code point", text: $input)
         .textFieldStyle(RoundedBorderTextFieldStyle())
         .focused($isInputFocused)
@@ -29,7 +31,9 @@ struct ContentView: View {
           .font(.custom("NotoSans-Regular", size: 64))
           .frame(maxWidth: .infinity, alignment: .center)
           .padding(.vertical, 20)
+
         Text("Character name: \(unicodeName)")
+
         Button("Copy to Clipboard") {
           NSPasteboard.general.clearContents()
           NSPasteboard.general.setString(String(character), forType: .string)
@@ -43,7 +47,7 @@ struct ContentView: View {
     }
     .font(.system(size: 16))
     .padding()
-    .frame(maxWidth: 500)
+    .frame(width: 500)
   }
 
   func processInput() {
